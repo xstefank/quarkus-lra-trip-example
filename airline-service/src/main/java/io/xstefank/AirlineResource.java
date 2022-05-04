@@ -5,22 +5,21 @@ import org.eclipse.microprofile.lra.annotation.Complete;
 import org.eclipse.microprofile.lra.annotation.ws.rs.LRA;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-@Path("/hotel")
+@Path("/airline")
 @ApplicationScoped
-public class HotelResource {
+public class AirlineResource {
 
     @LRA(value = LRA.Type.MANDATORY,end = false)
     @POST
     @Path("/book")
-    public Response bookHotel(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
-        logNicely("Booking hotel for " + lraId);
+    public Response bookFlight(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
+        logNicely("Booking flight for " + lraId);
 
         return Response.ok().build();
     }
@@ -28,8 +27,8 @@ public class HotelResource {
     @Compensate
     @PUT
     @Path("/compensate")
-    public Response compensateHotel(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
-        logNicely("Compensate for hotel " + lraId);
+    public Response compensateFlight(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
+        logNicely("Compensate for flight " + lraId);
 
         return Response.ok().build();
     }
@@ -37,8 +36,8 @@ public class HotelResource {
     @Complete
     @PUT
     @Path("/complete")
-    public Response completeHotel(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
-        logNicely("Complete for hotel " + lraId);
+    public Response completeFlight(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
+        logNicely("Complete for flight " + lraId);
 
         return Response.ok().build();
     }

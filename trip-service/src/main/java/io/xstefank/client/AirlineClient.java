@@ -6,10 +6,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 @RegisterRestClient(baseUri = "http://localhost:8082")
-@Path("/hotel")
-public interface HotelClient {
+@Path("/airline")
+public interface AirlineClient {
 
     @POST
     @Path("/book")
-    void bookHotel(String id);
+    void bookFlight(String id);
 }

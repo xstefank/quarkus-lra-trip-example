@@ -1,6 +1,6 @@
 package io.xstefank;
 
-import io.xstefank.client.HotelClient;
+import io.xstefank.client.AirlineClient;
 import org.eclipse.microprofile.lra.annotation.AfterLRA;
 import org.eclipse.microprofile.lra.annotation.LRAStatus;
 import org.eclipse.microprofile.lra.annotation.ws.rs.LRA;
@@ -20,7 +20,7 @@ public class TripResource {
 
     @Inject
     @RestClient
-    HotelClient hotelClient;
+    AirlineClient airlineClient;
 
     @LRA(end = false)
     @GET
@@ -45,18 +45,13 @@ public class TripResource {
     @AfterLRA
     @PUT
     @Path("/bookingProcessed")
-    public Response bookingProcessed(LRAStatus status) {
-        logNicely("Booking processed " + status);
+    public Response bookingProcessed(@HeaderParam(LRA.LRA_HTTP_ENDED_CONTEXT_HEADER) String lraId, LRAStatus status) {
+        logNicely("Booking processed " + lraId + ", " + status);
         return Response.ok().build();
     }
 
     private void performBooking(String id) {
-        try {
-            hotelClient.bookHotel(id);
-        } catch (Throwable e) {
-
-        }
-
+        airlineClient.bookFlight(id);
     }
 
     private void logNicely(String value) {
