@@ -22,7 +22,7 @@ public class TripResource {
     @RestClient
     HotelClient hotelClient;
 
-    @LRA
+    @LRA(end = false)
     @GET
     @Path("/book")
     public String bookTrip(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
@@ -31,6 +31,15 @@ public class TripResource {
         performBooking(lraId);
 
         return "Booking will be processed";
+    }
+
+    @LRA(end = true)
+    @GET
+    @Path("/end-trip")
+    public Response endTripBooking(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
+        logNicely("Ending booking for " + lraId);
+
+        return Response.ok().build();
     }
 
     @AfterLRA

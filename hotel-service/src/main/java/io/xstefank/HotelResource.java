@@ -5,6 +5,7 @@ import org.eclipse.microprofile.lra.annotation.Complete;
 import org.eclipse.microprofile.lra.annotation.ws.rs.LRA;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -21,7 +22,7 @@ public class HotelResource {
     public Response bookHotel(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
         logNicely("Booking hotel for " + lraId);
 
-        return Response.status(500).build();
+        return Response.ok().build();
     }
 
     @Compensate
