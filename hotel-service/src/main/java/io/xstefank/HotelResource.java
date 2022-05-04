@@ -15,13 +15,13 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class HotelResource {
 
-    @LRA(value = LRA.Type.MANDATORY)
+    @LRA(value = LRA.Type.MANDATORY,end = false)
     @POST
     @Path("/book")
     public Response bookHotel(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
         logNicely("Booking hotel for " + lraId);
 
-        return Response.ok().build();
+        return Response.status(500).build();
     }
 
     @Compensate
