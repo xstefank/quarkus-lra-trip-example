@@ -22,7 +22,7 @@ public class TripResource {
     @RestClient
     AirlineClient airlineClient;
 
-    @LRA(end = false)
+    @LRA
     @GET
     @Path("/book")
     public String bookTrip(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
