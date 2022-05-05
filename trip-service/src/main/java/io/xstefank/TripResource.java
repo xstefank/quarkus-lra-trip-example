@@ -28,7 +28,11 @@ public class TripResource {
     public String bookTrip(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
         logNicely("Booking new trip " + lraId);
 
-        performBooking(lraId);
+        try {
+            airlineClient.bookFlight(lraId);
+        } catch (Throwable throwable) {
+            // intentionally empty
+        }
 
         return "Booking will be processed";
     }
@@ -48,10 +52,6 @@ public class TripResource {
     public Response bookingProcessed(@HeaderParam(LRA.LRA_HTTP_ENDED_CONTEXT_HEADER) String lraId, LRAStatus status) {
         logNicely("Booking processed " + lraId + ", " + status);
         return Response.ok().build();
-    }
-
-    private void performBooking(String id) {
-        airlineClient.bookFlight(id);
     }
 
     private void logNicely(String value) {

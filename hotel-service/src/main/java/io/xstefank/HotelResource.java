@@ -23,14 +23,18 @@ public class HotelResource {
     @RestClient
     CarRentalClient carRentalClient;
 
-    @LRA(value = LRA.Type.MANDATORY,end = false)
+    @LRA(value = LRA.Type.MANDATORY, end = false)
     @POST
     @Path("/book")
     public Response bookHotel(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
         logNicely("Booking hotel for " + lraId);
 
         // propagate the saga to the car rental after the hotel is booked
-        carRentalClient.bookCar(lraId);
+        try {
+            carRentalClient.bookCar(lraId);
+        } catch (Throwable throwable) {
+            // intentionally empty
+        }
 
         return Response.ok().build();
     }
