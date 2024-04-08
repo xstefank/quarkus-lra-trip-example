@@ -1,0 +1,23 @@
+= LRA Trip example
+
+== Building and running
+
+This example consists of 4 application microservices and an LRA coordinator.
+
+The LRA coordinator can run as a docker container:
+
+[source,bash]
+----
+docker run --rm --name lra-coordinator --network host quay.io/jbosstm/lra-coordinator
+----
+
+The `host` network is required since coordinator call the individual services.
+
+Then you can run all provided services with `./mvnw quarkus:dev` in their individual directories:
+
+- `trip-service`
+- `airline-service`
+- `hotel-service`
+- `car-service`
+
+

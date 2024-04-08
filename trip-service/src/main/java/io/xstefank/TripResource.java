@@ -1,18 +1,18 @@
 package io.xstefank;
 
 import io.xstefank.client.AirlineClient;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.lra.annotation.AfterLRA;
 import org.eclipse.microprofile.lra.annotation.LRAStatus;
 import org.eclipse.microprofile.lra.annotation.ws.rs.LRA;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
+import org.jboss.resteasy.reactive.RestQuery;
 
 @Path("/trip")
 @ApplicationScoped
@@ -25,7 +25,8 @@ public class TripResource {
     @LRA
     @GET
     @Path("/book")
-    public String bookTrip(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId) {
+    public Response bookTrip(@HeaderParam(LRA.LRA_HTTP_CONTEXT_HEADER) String lraId,
+                           @RestQuery boolean fail) {
         logNicely("Booking new trip " + lraId);
 
         try {
@@ -34,7 +35,11 @@ public class TripResource {
             // intentionally empty
         }
 
-        return "Booking will be processed";
+        if (fail) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.ok("Booking will be processed").build();
     }
 
     @LRA(end = true)
